@@ -41,7 +41,7 @@ public class PortfolioManagerApplication {
       throws URISyntaxException, JsonParseException, JsonMappingException, IOException {
 
     ObjectMapper objectMapper = getObjectMapper();
-    File file = resolveFileFromResources("trades.json");
+    File file = resolveFileFromResources(args[0]);
     PortfolioTrade[] trade = objectMapper.readValue(file, PortfolioTrade[].class);
 
     List<String> list = new ArrayList<>();
