@@ -3,13 +3,13 @@ package com.crio.warmup.stock.dto;
 
 public class AnnualizedReturn {
 
-  private final String symbol;
-  private final Double annualizedReturn;
-  private final Double totalReturns;
+  private final transient String symbol;
+  private final transient Double yearlyReturns;
+  private final transient Double totalReturns;
 
-  public AnnualizedReturn(String symbol, Double annualizedReturn, Double totalReturns) {
+  public AnnualizedReturn(String symbol, Double yearlyReturns, Double totalReturns) {
     this.symbol = symbol;
-    this.annualizedReturn = annualizedReturn;
+    this.yearlyReturns = yearlyReturns;
     this.totalReturns = totalReturns;
   }
 
@@ -18,7 +18,7 @@ public class AnnualizedReturn {
   }
 
   public Double getAnnualizedReturn() {
-    return annualizedReturn;
+    return yearlyReturns;
   }
 
   public Double getTotalReturns() {

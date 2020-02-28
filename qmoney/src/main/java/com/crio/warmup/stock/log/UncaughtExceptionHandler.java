@@ -17,9 +17,9 @@ public class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler
 
     if (e.getStackTrace() != null && e.getStackTrace().length > 0) {
       ArrayNode logStacktraceJsonArrNode = JsonNodeFactory.instance.arrayNode();
-
-      for (StackTraceElement stackTraceElement : e.getStackTrace()) {
-        logStacktraceJsonArrNode.add(stackTraceElement.toString());
+      StackTraceElement[] stackTraceElement = e.getStackTrace();
+      for (int i = 0; i < stackTraceElement.length; i++) {
+        logStacktraceJsonArrNode.add(stackTraceElement[i].toString());
       }
       logEventJsonObjNode.set("stacktrace", logStacktraceJsonArrNode);
     }
