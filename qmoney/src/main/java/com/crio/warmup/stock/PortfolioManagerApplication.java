@@ -5,6 +5,8 @@ import com.crio.warmup.stock.dto.Candle;
 import com.crio.warmup.stock.dto.PortfolioTrade;
 import com.crio.warmup.stock.dto.TiingoCandle;
 import com.crio.warmup.stock.log.UncaughtExceptionHandler;
+import com.crio.warmup.stock.portfolio.PortfolioManager;
+import com.crio.warmup.stock.portfolio.PortfolioManagerFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -214,10 +216,11 @@ public class PortfolioManagerApplication {
   public static List<TiingoCandle> fetchAnnualData(String url) {
 
     RestTemplate restTemplate = new RestTemplate();
-    List<TiingoCandle> list = new ArrayList<>();
 
     ResponseEntity<TiingoCandle[]> response = restTemplate.getForEntity(url, TiingoCandle[].class);
     TiingoCandle[] candles = response.getBody();
+    List<TiingoCandle> list = new ArrayList<>();
+
     if (candles != null) {
       list.add(candles[0]);
       list.add(candles[candles.length - 1]);
@@ -300,11 +303,66 @@ public class PortfolioManagerApplication {
     
   }
 
+
+
+  
+
+  // TODO: CRIO_TASK_MODULE_REFACTOR
+  //  Once you are done with the implementation inside PortfolioManagerImpl and
+  //  PortfolioManagerFactory,
+  //  Create PortfolioManager using PortfoliomanagerFactory,
+  //  Refer to the code from previous modules to get the List<PortfolioTrades> and endDate, and
+  //  call the newly implemented method in PortfolioManager to calculate the annualized returns.
+  //  Test the same using the same commands as you used in module 3
+  //  use gralde command like below to test your code
+  //  ./gradlew run --args="trades.json 2020-01-01"
+  //  ./gradlew run --args="trades.json 2019-07-01"
+  //  ./gradlew run --args="trades.json 2019-12-03"
+  //  where trades.json is your json file
+  //  Confirm that you are getting same results as in Module3.
+
+  public static List<AnnualizedReturn> mainCalculateReturnsAfterRefactor(String[] args)
+      throws Exception {
+    String filename = args[0];
+    LocalDate localDate = LocalDate.parse(args[1]);
+
+    RestTemplate restTemplate = new RestTemplate();
+
+    ObjectMapper objectMapper = getObjectMapper();
+    File file = resolveFileFromResources(filename);
+    PortfolioTrade[] trade = objectMapper.readValue(file, PortfolioTrade[].class);
+    List<PortfolioTrade> porttrade = new ArrayList<>();
+    
+    for (int i = 0; i < trade.length; i++) {
+      porttrade.add(trade[i]);
+    }
+
+    PortfolioManagerFactory portfolioManagerFactory = new PortfolioManagerFactory();
+
+    PortfolioManager portfolioManager = portfolioManagerFactory.getPortfolioManager(restTemplate);
+
+    List<AnnualizedReturn> annualizedReturns = portfolioManager
+        .calculateAnnualizedReturn(porttrade, localDate);
+
+
+    return annualizedReturns;
+
+    //    LocalDate endDate = LocalDate.parse(args[1]);
+    //    String contents = resolveFileFromResources(filename);
+    //    ObjectMapper objectMapper = getObjectMapper();
+    //    Object portfolioTrades;
+    // return portfolioManager.calculateAnnualizedReturn(Arrays.asList(portfolioTrades), endDate);
+  }
+
+
   public static void main(String[] args) throws Exception {
     Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler());
     ThreadContext.put("runId", UUID.randomUUID().toString());
 
-    printJsonObject(mainCalculateSingleReturn(args));
 
+
+
+    printJsonObject(mainCalculateReturnsAfterRefactor(args));
   }
 }
+
