@@ -42,7 +42,7 @@ public class PortfolioManagerApplication {
   // ./gradlew run --args="trades.json"
   // Make sure that it prints below String on the console -
   // ["AAPL","MSFT","GOOGL"]
-  // Now, run
+  // Now, run q
   // ./gradlew build and make sure that the build passes successfully
   // There can be few unused imports, you will need to fix them to make the build
   // pass.
