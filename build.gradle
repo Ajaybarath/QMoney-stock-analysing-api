@@ -1,5 +1,6 @@
 buildscript {
     repositories {
+        mavenLocal()
         mavenCentral()
     }
     dependencies {
@@ -30,6 +31,8 @@ apply plugin: 'io.spring.dependency-management'
 apply plugin: "idea"
 apply plugin: "checkstyle"
 apply plugin: "com.github.spotbugs"
+apply plugin: 'maven-publish'
+apply plugin: 'java'
 
 version '1.0-SNAPSHOT'
 
@@ -98,6 +101,9 @@ subprojects {
     apply plugin: "pmd"
     apply plugin: "jacoco"
     apply plugin: "com.github.spotbugs"
+    apply plugin: 'maven-publish'
+    apply plugin: 'java'
+
 
     configurations {
         compileOnly {
@@ -109,6 +115,21 @@ subprojects {
         mavenLocal()
         mavenCentral()
     }
+
+    // group = 'com.crio.warmup'
+    // version = '1.0.0'
+
+    // publishing {
+    //     publications {
+    //         maven(MavenPublication) {
+    //             groupId group
+    //             artifactId 'annual-return'
+    //             version version
+
+    //             from components.java
+    //         }
+    //     }
+    // }
 
     test {
         reports {
@@ -173,14 +194,14 @@ task cleanupCrioJars {
         def userHome = System.properties['user.home']
         def mavenDir = new File(userHome, '.m2/repository/com/crio/')
 
-        if (mavenDir.exists()) {
-            delete mavenDir
-        }
+        // if (mavenDir.exists()) {
+        //     delete mavenDir
+        // }
     }
 }
 
 task verifyMavenJarsCreated {
-    // dependsOn cleanupCrioJars
+    dependsOn cleanupCrioJars
     dependsOn publishToMavenLocal
     doLast {
         def userHome = System.properties['user.home']

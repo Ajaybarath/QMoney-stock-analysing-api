@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'com.crio.warmup'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.0'
 sourceCompatibility = '1.8'
 
 configurations {
@@ -60,35 +60,12 @@ test {
     useJUnitPlatform()
 }
 
-// group 'com.crio.warmup'
-// version = '1.0.0'
-
-// publishing {
-//     publications {
-//         maven(MavenPublication) {
-//             artifact('annual-return.tar.gz') {
-//                 extension 'tar.gz'
-//             }
-//         }
-//     }
-//     // repositories {
-//     //     maven {
-//     //         name 'deploy'
-//     //         url deployRepoUrl
-//     //         credentials {
-//     //             username = deployRepoUsername
-//     //             password = deployRepoPassword
-//     //         }
-//     //     }
-//     // }
-// }
-
 publishing {
     publications {
         maven(MavenPublication) {
-            groupId 'com.crio.warmup'
+            groupId group
             artifactId 'annual-return'
-            version '1.0.0'
+            version version
 
             from components.java
         }
