@@ -109,17 +109,17 @@ subprojects {
         mavenCentral()
     }
     
-     publishing {
-       publications {
-         maven(MavenPublication) {
-             groupId 'com.crio.warmup'
-    //         artifactId 'annual-return'
-    //         version '1.0.0'
+    publishing {
+      publications {
+        maven(MavenPublication) {
+          groupId 'com.crio.warmup'
+          artifactId 'annual-return'
+          version '1.0.0'
 
-    //         from components.java
-    //     }
-    // }
-    // }
+          from components.java
+        }
+      }
+    }
 
     test {
         reports {
