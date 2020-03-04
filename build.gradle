@@ -106,6 +106,7 @@ subprojects {
     }
 
     repositories {
+        mavenLocal()
         mavenCentral()
     }
 
@@ -180,7 +181,7 @@ task cleanupCrioJars {
 
 task verifyMavenJarsCreated {
     // dependsOn cleanupCrioJars
-    // dependsOn publishToMavenLocal
+    dependsOn publishToMavenLocal
     doLast {
         def userHome = System.properties['user.home']
         def mavenDir = new File(userHome, '.m2/repository/com/crio/warmup/annual-return/1.0.0')
