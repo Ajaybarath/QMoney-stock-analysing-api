@@ -41,7 +41,6 @@ repositories {
 }
 
 dependencies {
-
 }
 
 task installGitHooks(type: Copy) {
@@ -99,6 +98,7 @@ subprojects {
     apply plugin: "jacoco"
     apply plugin: "com.github.spotbugs"
 
+
     configurations {
         compileOnly {
             extendsFrom annotationProcessor
@@ -108,6 +108,18 @@ subprojects {
     repositories {
         mavenCentral()
     }
+    
+     publishing {
+       publications {
+         maven(MavenPublication) {
+             groupId 'com.crio.warmup'
+    //         artifactId 'annual-return'
+    //         version '1.0.0'
+
+    //         from components.java
+    //     }
+    // }
+    // }
 
     test {
         reports {
@@ -178,13 +190,14 @@ task cleanupCrioJars {
     }
 }
 
+
 task verifyMavenJarsCreated {
     dependsOn cleanupCrioJars
     dependsOn publishToMavenLocal
     doLast {
         def userHome = System.properties['user.home']
         def mavenDir = new File(userHome, '.m2/repository/com/crio/warmup/annual-return/1.0.0')
-
+        
         if (!mavenDir.exists()) {
             throw new Exception("maven repository directory not created")
         }
